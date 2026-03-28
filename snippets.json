@@ -116,6 +116,12 @@
         "title": "Show remote URLs",
         "code": "git remote -v",
         "desc": "Lists configured remotes with fetch and push URLs."
+      },
+      {
+        "id": "git-7",
+        "title": "Create repo github cli",
+        "code": "gh repo create \"CodeSnippt\" --public --source=. --remote=origin --push",
+        "desc": "Create github repo using github cli."
       }
     ]
   },

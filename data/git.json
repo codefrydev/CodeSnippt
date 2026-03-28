@@ -1,0 +1,42 @@
+{
+  "category": "Git",
+  "iconKey": "GitBranch",
+  "snippets": [
+    {
+      "id": "git-1",
+      "title": "Undo last commit (keep changes)",
+      "code": "git reset --soft HEAD~1",
+      "desc": "Removes the last commit but leaves your files unchanged."
+    },
+    {
+      "id": "git-2",
+      "title": "Force push safely",
+      "code": "git push --force-with-lease",
+      "desc": "Force pushes but fails if someone else has pushed to the branch."
+    },
+    {
+      "id": "git-3",
+      "title": "Stash changes with a message",
+      "code": "git stash push -m \"work in progress\"",
+      "desc": "Saves uncommitted changes with a descriptive label."
+    },
+    {
+      "id": "git-4",
+      "title": "Delete local branch",
+      "code": "git branch -d branch_name",
+      "desc": "Deletes a local branch (use -D to force delete)."
+    },
+    {
+      "id": "git-5",
+      "title": "Pretty log view",
+      "code": "git log --graph --oneline --decorate --all",
+      "desc": "Shows a visual tree of commits and branches."
+    },
+    {
+      "title": "Show remote URLs",
+      "code": "git remote -v",
+      "desc": "Lists configured remotes with fetch and push URLs.",
+      "id": "git-6"
+    }
+  ]
+}

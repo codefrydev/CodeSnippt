@@ -1,0 +1,28 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+out/
+
+# Visual Studio / MSBuild
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.ilk
+*.pdb
+
+# Test
+TestResults/
+*.trx
+
+# OS
+.DS_Store
+Thumbs.db
+
+# JetBrains
+.idea/
+
+# NuGet (if ever used at repo root)
+*.nupkg
+*__pycache__*

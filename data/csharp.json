@@ -1,0 +1,36 @@
+{
+  "category": "C#",
+  "iconKey": "Hash",
+  "snippets": [
+    {
+      "id": "cs-1",
+      "title": "Read entire file text",
+      "code": "string content = await File.ReadAllTextAsync(\"path/to/file.txt\");",
+      "desc": "Asynchronously reads all text from a file."
+    },
+    {
+      "id": "cs-2",
+      "title": "LINQ: Filter and Select",
+      "code": "var names = users.Where(u => u.Age > 18).Select(u => u.Name).ToList();",
+      "desc": "Filters a collection and projects a specific property."
+    },
+    {
+      "id": "cs-3",
+      "title": "Basic Singleton Pattern",
+      "code": "public sealed class Singleton\n{\n    private static readonly Lazy<Singleton> lazy = new Lazy<Singleton>(() => new Singleton());\n    public static Singleton Instance { get { return lazy.Value; } }\n    private Singleton() {}\n}",
+      "desc": "Thread-safe Singleton implementation using Lazy<T>."
+    },
+    {
+      "id": "cs-4",
+      "title": "Minimal API Endpoint",
+      "code": "app.MapGet(\"/hello\", () => \"Hello World!\");",
+      "desc": "Basic GET endpoint in ASP.NET Core Minimal APIs."
+    },
+    {
+      "id": "cs-5",
+      "title": "Null-conditional Operator",
+      "code": "string? zip = user?.Address?.ZipCode;",
+      "desc": "Safely accesses nested properties that might be null."
+    }
+  ]
+}

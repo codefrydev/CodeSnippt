@@ -1,0 +1,12 @@
+{
+  "category": "SQL",
+  "iconKey": "Database",
+  "snippets": [
+    {
+      "id": "sql-1",
+      "title": "Find Duplicate Rows",
+      "code": "SELECT Name, COUNT(*)\nFROM Users\nGROUP BY Name\nHAVING COUNT(*) > 1;",
+      "desc": "Finds users with identical names using GROUP BY."
+    }
+  ]
+}

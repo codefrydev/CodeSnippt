@@ -1,0 +1,42 @@
+{
+  "category": ".NET CLI",
+  "iconKey": "Terminal",
+  "snippets": [
+    {
+      "id": "net-1",
+      "title": "Create new Web API",
+      "code": "dotnet new webapi -n MyApiProject",
+      "desc": "Bootstraps a new ASP.NET Core Web API project."
+    },
+    {
+      "id": "net-2",
+      "title": "Add NuGet Package",
+      "code": "dotnet add package Newtonsoft.Json",
+      "desc": "Installs a package to the current project."
+    },
+    {
+      "id": "net-3",
+      "title": "EF Core: Add Migration",
+      "code": "dotnet ef migrations add InitialCreate",
+      "desc": "Generates a new Entity Framework Core migration."
+    },
+    {
+      "id": "net-4",
+      "title": "EF Core: Update Database",
+      "code": "dotnet ef database update",
+      "desc": "Applies pending migrations to the database."
+    },
+    {
+      "id": "net-5",
+      "title": "Run tests with coverage",
+      "code": "dotnet test /p:CollectCoverage=true",
+      "desc": "Executes unit tests and collects code coverage data."
+    },
+    {
+      "id": "net-6",
+      "title": "Watch run",
+      "code": "dotnet watch run",
+      "desc": "Runs the app and auto-restarts on file changes."
+    }
+  ]
+}

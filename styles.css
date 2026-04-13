@@ -1,0 +1,46 @@
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+}
+.snippet-masonry {
+    column-count: 1;
+    column-gap: 1.5rem;
+    width: 100%;
+}
+@media (min-width: 640px) {
+    .snippet-masonry {
+        column-count: 2;
+    }
+}
+@media (min-width: 1280px) {
+    .snippet-masonry {
+        column-count: 3;
+    }
+}
+.snippet-masonry .snippet-card {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+}
+.snippet-cm .CodeMirror {
+    height: auto;
+    font-size: 13px;
+    border-radius: 0;
+    background: #0d131f !important;
+}
+.snippet-cm .CodeMirror-scroll {
+    max-height: min(70vh, 22rem);
+}
+.snippet-cm .CodeMirror-gutters {
+    border: none;
+    background: #0d131f !important;
+}

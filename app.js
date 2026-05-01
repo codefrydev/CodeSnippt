@@ -82,8 +82,29 @@ let layoutMode = (() => {
     } catch (_) {
         /* ignore */
     }
-    return 'responsive';
+    return '1col';
 })();
+
+function collectionCategorySet() {
+    return new Set(SNIPPET_COLLECTION.map((c) => c.category));
+}
+
+/** Read `cat` query: absent/empty → All; must match a loaded collection category. */
+function readCategoryFromLocation() {
+    const valid = collectionCategorySet();
+    const raw = new URL(window.location.href).searchParams.get('cat');
+    if (raw === null || raw === '') return { category: 'All', fixUrl: false };
+    if (valid.has(raw)) return { category: raw, fixUrl: false };
+    return { category: 'All', fixUrl: true };
+}
+
+function syncUrlToCategory(category, mode) {
+    const url = new URL(window.location.href);
+    if (category === 'All') url.searchParams.delete('cat');
+    else url.searchParams.set('cat', category);
+    const fn = mode === 'push' ? history.pushState : history.replaceState;
+    fn.call(history, null, '', url);
+}
 
 const categoryNav = document.getElementById('category-nav');
 const snippetsContainer = document.getElementById('snippets-container');
@@ -153,6 +174,10 @@ async function loadSnippets() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const raw = await res.json();
         applySnippetPayload(raw);
+        const fromUrl = readCategoryFromLocation();
+        activeCategory = fromUrl.category;
+        activeCategoryTitle.textContent = `${activeCategory} Snippets`;
+        if (fromUrl.fixUrl) syncUrlToCategory(activeCategory, 'replace');
         appStatus.classList.add('hidden');
         snippetsContainerEl.classList.remove('hidden');
         layoutSelect.value = layoutMode;
@@ -204,6 +229,7 @@ function getCategoryButtonClass(categoryName) {
 function setCategory(category) {
     activeCategory = category;
     activeCategoryTitle.textContent = `${category} Snippets`;
+    syncUrlToCategory(category, 'push');
     renderSidebar();
     renderSnippets();
 }
@@ -362,6 +388,15 @@ searchInput.addEventListener('input', (e) => {
 clearSearchBtn.addEventListener('click', () => {
     searchQuery = '';
     searchInput.value = '';
+    renderSnippets();
+});
+
+window.addEventListener('popstate', () => {
+    const fromUrl = readCategoryFromLocation();
+    activeCategory = fromUrl.category;
+    activeCategoryTitle.textContent = `${activeCategory} Snippets`;
+    if (fromUrl.fixUrl) syncUrlToCategory(activeCategory, 'replace');
+    renderSidebar();
     renderSnippets();
 });
 

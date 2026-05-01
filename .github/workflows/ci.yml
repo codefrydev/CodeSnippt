@@ -21,5 +21,8 @@ jobs:
       - name: Regenerate snippets.json from data/
         run: python tools/merge_snippets.py
 
+      - name: Ensure snippets.json matches committed output (run merge locally before push)
+        run: git diff --exit-code snippets.json
+
       - name: Smoke check (required files)
         run: bash tools/verify-highlight.sh

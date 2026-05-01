@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Merge data/*.json into snippets.json at the repository root (generated; gitignored)."""
+"""Merge data/*.json into snippets.json at the repository root (commit after editing data/)."""
 
 from __future__ import annotations
 

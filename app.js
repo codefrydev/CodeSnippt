@@ -118,6 +118,23 @@ function syncSnippetContainerLayout() {
     if (hidden) snippetsContainer.classList.add('hidden');
 }
 
+/** Directory URL where index.html / app.js / snippets.json live (works on GitHub Pages subpaths). */
+function appPublicBaseUrl() {
+    const script = document.querySelector('script[src*="app.js"]');
+    if (script?.src) {
+        const u = new URL(script.src);
+        const dir = u.pathname.replace(/[^/]*$/, '');
+        return `${u.origin}${dir}`;
+    }
+    let path = window.location.pathname;
+    if (path.endsWith('/')) return `${window.location.origin}${path}`;
+    if (path.endsWith('.html')) {
+        path = path.slice(0, path.lastIndexOf('/') + 1);
+        return `${window.location.origin}${path}`;
+    }
+    return `${window.location.origin}${path}/`;
+}
+
 async function loadSnippets() {
     const appStatus = document.getElementById('app-status');
     const appStatusMessage = document.getElementById('app-status-message');
@@ -131,7 +148,8 @@ async function loadSnippets() {
     appStatusMessage.className = 'text-lg text-gray-400';
 
     try {
-        const res = await fetch('snippets.json', { cache: 'no-store' });
+        const snippetsUrl = new URL('snippets.json', appPublicBaseUrl()).href;
+        const res = await fetch(snippetsUrl, { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const raw = await res.json();
         applySnippetPayload(raw);
@@ -144,7 +162,7 @@ async function loadSnippets() {
     } catch (err) {
         console.error(err);
         appStatusMessage.textContent =
-            'Could not load snippets.json. Serve this folder over http(s) (e.g. Live Server) and ensure snippets.json exists next to index.html.';
+            'Could not load snippets.json. Serve over http(s), deploy snippets.json next to index.html / app.js, or fix your host base path.';
         appStatusMessage.className = 'text-lg text-red-400 text-center max-w-lg px-4';
     }
 }

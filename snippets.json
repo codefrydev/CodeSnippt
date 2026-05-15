@@ -74,6 +74,36 @@
         "title": "Null-conditional Operator",
         "code": "string? zip = user?.Address?.ZipCode;",
         "desc": "Safely accesses nested properties that might be null."
+      },
+      {
+        "id": "cs-6",
+        "title": "System.Text.Json: Serialize",
+        "code": "var options = new JsonSerializerOptions\n{\n    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,\n    WriteIndented = true,\n};\nstring json = JsonSerializer.Serialize(person, options);",
+        "desc": "Serializes an object to JSON with camelCase names and readable indentation."
+      },
+      {
+        "id": "cs-7",
+        "title": "System.Text.Json: Deserialize",
+        "code": "var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };\nPerson? person = JsonSerializer.Deserialize<Person>(json, options);",
+        "desc": "Parses JSON into a type; case-insensitive property matching for APIs that vary casing."
+      },
+      {
+        "id": "cs-8",
+        "title": "HttpClient: GET with headers",
+        "code": "using var client = new HttpClient();\nusing var request = new HttpRequestMessage(HttpMethod.Get, \"https://api.example.com/items\");\nrequest.Headers.Authorization = new AuthenticationHeaderValue(\"Bearer\", token);\nrequest.Headers.Add(\"X-Request-Id\", requestId);\n\nusing HttpResponseMessage response = await client.SendAsync(request);\nresponse.EnsureSuccessStatusCode();\nstring body = await response.Content.ReadAsStringAsync();",
+        "desc": "Sends a GET with Authorization and a custom header, then reads the response body as text."
+      },
+      {
+        "id": "cs-9",
+        "title": "HttpClient: POST JSON with headers",
+        "code": "using var client = new HttpClient();\nclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(\"Bearer\", token);\nclient.DefaultRequestHeaders.Add(\"X-Correlation-Id\", correlationId);\n\nusing HttpResponseMessage response = await client.PostAsJsonAsync(\n    \"https://api.example.com/items\",\n    new { Name = \"Ada\", Role = \"dev\" });\nresponse.EnsureSuccessStatusCode();\nCreatedItem? item = await response.Content.ReadFromJsonAsync<CreatedItem>();",
+        "desc": "Posts a JSON body via PostAsJsonAsync with default headers, then deserializes the response."
+      },
+      {
+        "id": "cs-10",
+        "title": "IHttpClientFactory: named client",
+        "code": "HttpClient client = httpClientFactory.CreateClient(\"MyApi\");\n// Register in DI: builder.Services.AddHttpClient(\"MyApi\", c =>\n// {\n//     c.BaseAddress = new Uri(\"https://api.example.com/\");\n//     c.DefaultRequestHeaders.Add(\"Accept\", \"application/json\");\n// });",
+        "desc": "Resolves a configured named HttpClient from IHttpClientFactory (typical in ASP.NET Core)."
       }
     ]
   },

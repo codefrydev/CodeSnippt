@@ -114,6 +114,28 @@ const activeCategoryTitle = document.getElementById('active-category-title');
 const emptyState = document.getElementById('empty-state');
 const emptyMessage = document.getElementById('empty-message');
 const clearSearchBtn = document.getElementById('clear-search-btn');
+const navMenuBtn = document.getElementById('nav-menu-btn');
+const navCloseBtn = document.getElementById('nav-close-btn');
+const navBackdrop = document.getElementById('nav-backdrop');
+
+function syncMobileCategoryLabel() {
+    const el = document.getElementById('mobile-category-label');
+    if (el) el.textContent = activeCategory;
+}
+
+function setDrawerOpen(open) {
+    document.documentElement.classList.toggle('drawer-is-open', open);
+    if (navMenuBtn) navMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function closeDrawer() {
+    setDrawerOpen(false);
+}
+
+function toggleDrawer() {
+    if (window.matchMedia('(min-width: 1024px)').matches) return;
+    setDrawerOpen(!document.documentElement.classList.contains('drawer-is-open'));
+}
 
 function getLayoutContainerClasses() {
     const g = 'gap-6 transition-all duration-200 w-full min-w-0';
@@ -177,6 +199,7 @@ async function loadSnippets() {
         const fromUrl = readCategoryFromLocation();
         activeCategory = fromUrl.category;
         activeCategoryTitle.textContent = `${activeCategory} Snippets`;
+        syncMobileCategoryLabel();
         if (fromUrl.fixUrl) syncUrlToCategory(activeCategory, 'replace');
         appStatus.classList.add('hidden');
         snippetsContainerEl.classList.remove('hidden');
@@ -219,7 +242,8 @@ function renderSidebar() {
 }
 
 function getCategoryButtonClass(categoryName) {
-    const baseClass = 'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium border';
+    const baseClass =
+        'w-full flex items-center gap-3 px-3 py-3 sm:py-2.5 rounded-lg transition-all duration-200 text-sm font-medium border min-h-[44px] sm:min-h-0';
     if (activeCategory === categoryName) {
         return `${baseClass} bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]`;
     }
@@ -229,7 +253,9 @@ function getCategoryButtonClass(categoryName) {
 function setCategory(category) {
     activeCategory = category;
     activeCategoryTitle.textContent = `${category} Snippets`;
+    syncMobileCategoryLabel();
     syncUrlToCategory(category, 'push');
+    closeDrawer();
     renderSidebar();
     renderSnippets();
 }
@@ -284,7 +310,7 @@ function showCopiedState(btn) {
 }
 
 function cmHostHtml(snippet, padForCopyBtn) {
-    const pad = padForCopyBtn ? ' pr-10' : '';
+    const pad = padForCopyBtn ? ' pr-12 sm:pr-10' : '';
     return `<div class="snippet-cm min-h-[2.5rem] w-full text-left${pad}"><div class="snippet-cm-host"></div></div>`;
 }
 
@@ -300,7 +326,7 @@ function buildSnippetCard(snippet) {
                         <div class="flex items-start justify-between gap-2 mb-2">
                             <span class="text-xs font-semibold px-2.5 py-1 bg-gray-800 text-gray-300 rounded-full border border-gray-700">${escapeHtml(snippet.category)}</span>
                             <button type="button" id="${btnId}"
-                                class="shrink-0 p-1.5 rounded-md bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all focus:outline-none border border-gray-700 hover:border-gray-500"
+                                class="shrink-0 flex h-11 w-11 items-center justify-center rounded-md bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all focus:outline-none border border-gray-700 hover:border-gray-500 sm:h-auto sm:w-auto sm:p-1.5"
                                 title="Copy code">${ICONS.Copy}</button>
                         </div>
                         <h3 class="text-base font-medium text-gray-100 group-hover:text-blue-400 transition-colors">${escapeHtml(snippet.title)}</h3>
@@ -322,7 +348,7 @@ function buildSnippetCard(snippet) {
                     </div>
                     <div class="relative flex-1 bg-[#0d131f] p-5 pt-4 group-hover:bg-[#111827] transition-colors">
                         <button type="button" id="${btnId}"
-                            class="absolute top-3 right-3 p-1.5 rounded-md bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all focus:outline-none border border-gray-700 hover:border-gray-500"
+                            class="absolute top-2 right-2 flex h-11 w-11 items-center justify-center rounded-md bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all focus:outline-none border border-gray-700 hover:border-gray-500 sm:top-3 sm:right-3 sm:h-auto sm:w-auto sm:p-1.5"
                             title="Copy code">${ICONS.Copy}</button>
                         ${cmHostHtml(snippet, true)}
                     </div>`;
@@ -394,9 +420,22 @@ window.addEventListener('popstate', () => {
     const fromUrl = readCategoryFromLocation();
     activeCategory = fromUrl.category;
     activeCategoryTitle.textContent = `${activeCategory} Snippets`;
+    syncMobileCategoryLabel();
     if (fromUrl.fixUrl) syncUrlToCategory(activeCategory, 'replace');
     renderSidebar();
     renderSnippets();
+});
+
+navMenuBtn?.addEventListener('click', () => toggleDrawer());
+navCloseBtn?.addEventListener('click', () => closeDrawer());
+navBackdrop?.addEventListener('click', () => closeDrawer());
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+});
+
+window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 1024px)').matches) closeDrawer();
 });
 
 loadSnippets();

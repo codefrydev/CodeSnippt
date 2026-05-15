@@ -366,7 +366,6 @@ function renderSnippets() {
     }
 }
 
-document.getElementById('logo-icon-container').innerHTML = ICONS.Code;
 document.getElementById('search-icon-container').innerHTML = ICONS.Search;
 document.getElementById('empty-icon-container').innerHTML = ICONS.SearchLarge;
 

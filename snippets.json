@@ -184,5 +184,17 @@
         "desc": "Finds users with identical names using GROUP BY."
       }
     ]
+  },
+  {
+    "category": "Web",
+    "iconKey": "Code",
+    "snippets": [
+      {
+        "id": "web-1",
+        "title": "Defer script until user interaction",
+        "code": "(function () {\n    var loaded = false;\n    var events = [\"scroll\", \"click\", \"touchstart\", \"keydown\"];\n    var opts = { passive: true, capture: true };\n    function loadDeferredScript() {\n        if (loaded) return;\n        loaded = true;\n        events.forEach(function (event) {\n            window.removeEventListener(event, loadDeferredScript, opts);\n        });\n        var script = document.createElement(\"script\");\n        script.async = true;\n        script.src = \"https://example.com/your-script.js\";\n        document.head.appendChild(script);\n    }\n    events.forEach(function (event) {\n        window.addEventListener(event, loadDeferredScript, opts);\n    });\n})();",
+        "desc": "Loads a third-party script only after the first scroll, click, touch, or keydown to reduce initial page weight."
+      }
+    ]
   }
 ]

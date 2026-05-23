@@ -33,6 +33,8 @@ function modeForCategory(category) {
         case 'Git':
         case '.NET CLI':
             return 'text/x-sh';
+        case 'Web':
+            return 'javascript';
         default:
             return null;
     }

@@ -8,6 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/codemirror.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/theme/dracula.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles.css" />
+    <script type="text/javascript">
+    (function () {
+        var loaded = false;
+        var events = ["scroll", "click", "touchstart", "keydown"];
+        var opts = { passive: true, capture: true };
+        function loadClarity() {
+            if (loaded) return;
+            loaded = true;
+            events.forEach(function (event) {
+                window.removeEventListener(event, loadClarity, opts);
+            });
+            (function (c, l, a, r, i, t, y) {
+                c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+                t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+                y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+            })(window, document, "clarity", "script", "mxr4hxioh4");
+        }
+        events.forEach(function (event) {
+            window.addEventListener(event, loadClarity, opts);
+        });
+    })();
+    </script>
 </head>
 <body class="flex h-screen flex-col bg-gray-950 text-gray-100 font-sans selection:bg-blue-500/30 overflow-hidden lg:flex-row">
 
@@ -112,6 +134,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/mode/clike/clike.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/mode/sql/sql.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/mode/shell/shell.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/mode/javascript/javascript.min.js" crossorigin="anonymous"></script>
     <script src="app.js"></script>
 </body>
 </html>

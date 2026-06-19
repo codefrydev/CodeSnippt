@@ -176,6 +176,18 @@
         "title": "Untrack file (keep local copy)",
         "code": "git rm --cached path/to/file\necho \"path/to/file\" >> .gitignore",
         "desc": "Stops tracking a file but keeps it on disk. Add the path to .gitignore so Git does not track it again."
+      },
+      {
+        "id": "git-12",
+        "title": "Commit via commit.sh script",
+        "code": "chmod +x commit.sh\ngit add .\n./commit.sh \"Multiuser commit\"\ngit push",
+        "desc": "Make commit.sh executable, stage all changes, run the script with a message, then push."
+      },
+      {
+        "id": "git-13",
+        "title": "Multi-author commit script",
+        "code": "#!/usr/bin/env bash\n# multi-author-commit.sh — commit staged changes with a random author identity\n\nset -euo pipefail\n\n# Add as many fake contributors as you want (name|email)\nAUTHORS=(\n  \"Alice|alice@users.noreply.github.com\"\n  \"Bob|bob@users.noreply.github.com\"\n  \"Carol|carol@users.noreply.github.com\"\n  \"Dave|dave@users.noreply.github.com\"\n  \"Eve|eve@users.noreply.github.com\"\n)\n\nCOMMIT_MSG=\"${1:-Update content}\"\n\n# Pick random author\nidx=$((RANDOM % ${#AUTHORS[@]}))\nentry=\"${AUTHORS[$idx]}\"\nname=\"${entry%%|*}\"\nemail=\"${entry##*|}\"\n\nif ! git diff --cached --quiet; then\n  git commit --author=\"${name} <${email}>\" -m \"${COMMIT_MSG}\"\n  echo \"Committed as: ${name} <${email}>\"\nelse\n  echo \"Nothing staged. Run: git add <files>\"\n  exit 1\nfi",
+        "desc": "Bash script: picks a random author from AUTHORS and commits staged changes. Save as commit.sh and run after git add."
       }
     ]
   },

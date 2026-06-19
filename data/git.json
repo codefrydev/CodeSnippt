@@ -61,6 +61,12 @@
       "title": "Per-author stats (commits and line churn)",
       "code": "$authors = git log --format='%aN' | Sort-Object -Unique\n\nforeach ($author in $authors) {\n    $log = git log --author=\"$author\" --pretty=tformat: --numstat\n    $added = 0\n    $removed = 0\n    $commits = (git log --author=\"$author\" --oneline | Measure-Object).Count\n\n    foreach ($line in $log) {\n        $parts = $line -split \"`t\"\n        if ($parts.Length -ge 2) {\n            if ($parts[0] -match '^\\d+$') { $added += [int]$parts[0] }\n            if ($parts[1] -match '^\\d+$') { $removed += [int]$parts[1] }\n        }\n    }\n\n    \"$author | Commits: $commits | Added: $added | Removed: $removed | Total: $($added + $removed)\"\n}",
       "desc": "PowerShell: lists each author with commit count and lines added/removed from git log --numstat."
+    },
+    {
+      "id": "git-11",
+      "title": "Untrack file (keep local copy)",
+      "code": "git rm --cached path/to/file\necho \"path/to/file\" >> .gitignore",
+      "desc": "Stops tracking a file but keeps it on disk. Add the path to .gitignore so Git does not track it again."
     }
   ]
 }

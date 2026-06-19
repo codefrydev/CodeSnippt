@@ -32,6 +32,7 @@ function modeForCategory(category) {
             return 'text/x-sql';
         case 'Git':
         case '.NET CLI':
+        case 'Python':
             return 'text/x-sh';
         case 'Web':
             return 'javascript';

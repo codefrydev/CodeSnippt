@@ -170,6 +170,60 @@
         "title": "Per-author stats (commits and line churn)",
         "code": "$authors = git log --format='%aN' | Sort-Object -Unique\n\nforeach ($author in $authors) {\n    $log = git log --author=\"$author\" --pretty=tformat: --numstat\n    $added = 0\n    $removed = 0\n    $commits = (git log --author=\"$author\" --oneline | Measure-Object).Count\n\n    foreach ($line in $log) {\n        $parts = $line -split \"`t\"\n        if ($parts.Length -ge 2) {\n            if ($parts[0] -match '^\\d+$') { $added += [int]$parts[0] }\n            if ($parts[1] -match '^\\d+$') { $removed += [int]$parts[1] }\n        }\n    }\n\n    \"$author | Commits: $commits | Added: $added | Removed: $removed | Total: $($added + $removed)\"\n}",
         "desc": "PowerShell: lists each author with commit count and lines added/removed from git log --numstat."
+      },
+      {
+        "id": "git-11",
+        "title": "Untrack file (keep local copy)",
+        "code": "git rm --cached path/to/file\necho \"path/to/file\" >> .gitignore",
+        "desc": "Stops tracking a file but keeps it on disk. Add the path to .gitignore so Git does not track it again."
+      }
+    ]
+  },
+  {
+    "category": "Python",
+    "iconKey": "Terminal",
+    "snippets": [
+      {
+        "id": "py-1",
+        "title": "Create and activate virtual environment",
+        "code": "python3 -m venv .venv\nsource .venv/bin/activate",
+        "desc": "Creates a local .venv folder and activates it (macOS/Linux)."
+      },
+      {
+        "id": "py-2",
+        "title": "Install from requirements.txt",
+        "code": "pip install -r requirements.txt",
+        "desc": "Installs all packages listed in requirements.txt into the active environment."
+      },
+      {
+        "id": "py-3",
+        "title": "Freeze dependencies",
+        "code": "pip freeze > requirements.txt",
+        "desc": "Writes currently installed packages and versions to requirements.txt."
+      },
+      {
+        "id": "py-4",
+        "title": "Upgrade pip",
+        "code": "python -m pip install --upgrade pip",
+        "desc": "Upgrades pip inside the active virtual environment."
+      },
+      {
+        "id": "py-5",
+        "title": "Run tests with pytest",
+        "code": "python -m pytest -v",
+        "desc": "Runs the test suite with verbose output using pytest."
+      },
+      {
+        "id": "py-6",
+        "title": "Deactivate virtual environment",
+        "code": "deactivate",
+        "desc": "Exits the active virtual environment and returns to the system Python."
+      },
+      {
+        "id": "py-7",
+        "title": "Create venv (Windows)",
+        "code": "python -m venv .venv\n.venv\\Scripts\\activate",
+        "desc": "Creates and activates a virtual environment on Windows (PowerShell/CMD)."
       }
     ]
   },

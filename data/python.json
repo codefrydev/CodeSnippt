@@ -1,0 +1,48 @@
+{
+  "category": "Python",
+  "iconKey": "Terminal",
+  "snippets": [
+    {
+      "id": "py-1",
+      "title": "Create and activate virtual environment",
+      "code": "python3 -m venv .venv\nsource .venv/bin/activate",
+      "desc": "Creates a local .venv folder and activates it (macOS/Linux)."
+    },
+    {
+      "id": "py-2",
+      "title": "Install from requirements.txt",
+      "code": "pip install -r requirements.txt",
+      "desc": "Installs all packages listed in requirements.txt into the active environment."
+    },
+    {
+      "id": "py-3",
+      "title": "Freeze dependencies",
+      "code": "pip freeze > requirements.txt",
+      "desc": "Writes currently installed packages and versions to requirements.txt."
+    },
+    {
+      "id": "py-4",
+      "title": "Upgrade pip",
+      "code": "python -m pip install --upgrade pip",
+      "desc": "Upgrades pip inside the active virtual environment."
+    },
+    {
+      "id": "py-5",
+      "title": "Run tests with pytest",
+      "code": "python -m pytest -v",
+      "desc": "Runs the test suite with verbose output using pytest."
+    },
+    {
+      "id": "py-6",
+      "title": "Deactivate virtual environment",
+      "code": "deactivate",
+      "desc": "Exits the active virtual environment and returns to the system Python."
+    },
+    {
+      "id": "py-7",
+      "title": "Create venv (Windows)",
+      "code": "python -m venv .venv\n.venv\\Scripts\\activate",
+      "desc": "Creates and activates a virtual environment on Windows (PowerShell/CMD)."
+    }
+  ]
+}

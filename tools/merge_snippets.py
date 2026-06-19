@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Merge data/*.json into snippets.json at the repository root (commit after editing data/)."""
+"""Merge data/*.json into snippets.json at the repository root.
+
+Edit files under data/ only; CI regenerates and commits snippets.json on push/PR.
+"""
 
 from __future__ import annotations
 

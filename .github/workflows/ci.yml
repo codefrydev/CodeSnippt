@@ -8,11 +8,17 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
         with:
@@ -21,8 +27,23 @@ jobs:
       - name: Regenerate snippets.json from data/
         run: python tools/merge_snippets.py
 
-      - name: Ensure snippets.json matches committed output (run merge locally before push)
-        run: git diff --exit-code snippets.json
+      - name: Commit regenerated snippets.json when out of sync
+        env:
+          CAN_PUSH: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          if git diff --quiet snippets.json; then
+            echo "snippets.json is up to date"
+            exit 0
+          fi
+          if [[ "${CAN_PUSH}" != "true" ]]; then
+            echo "::error::snippets.json is out of sync with data/. Edit files under data/ only. Fork PRs cannot be auto-updated — run: python tools/merge_snippets.py && git add snippets.json"
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add snippets.json
+          git commit -m "chore: regenerate snippets.json from data/"
+          git push
 
       - name: Smoke check (required files)
         run: bash tools/verify-highlight.sh
